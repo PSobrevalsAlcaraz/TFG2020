@@ -1,11 +1,8 @@
-#######################################################################
-##### On this folder are all the scripts created for this project ######
+
+Here you can find all the scripts used for my Final project
 
 
-PATH to the folder: /hpc/hers_en/psobrevals/scripts
-
-## FILES
-
+## SCRIPTS
 
 bgen_files.sh			---> File to extract and curate genetic data from ukbiobank folder (imputed .bgen files)
 Carina_Making_outcomes.R	---> File to generate the outcomes from Uk Biobank questionaries, files made with Outputs.R
