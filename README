@@ -2,7 +2,7 @@
 Here you can find all the scripts used for my final project and a short description of what are they for
 
 
-## SCRIPTS
+##SCRIPTS
 
 bgen_files.sh			---> File to extract and curate genetic data from ukbiobank folder (imputed .bgen files)
 Making_outcomes.R	        ---> File to generate the outcomes from Uk Biobank questionaries, files made with Outputs.R
