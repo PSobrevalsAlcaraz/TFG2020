@@ -456,25 +456,25 @@ confide0_bin <- mapvalues(confide0,
                           from = c("2-4 times a week","About once a month","About once a week",
                                    "Almost daily", "Do not know", "Never or almost never",
                                    "Once every few months","Prefer not to answer"),
-                          to = c("1", "1","1","1", NA,"1","0", NA)) 
+                          to = c("1", "1","1","1", NA,"0","1", NA)) 
 
 confide1_bin <- mapvalues(confide1, 
                           from = c("2-4 times a week","About once a month","About once a week",
                                    "Almost daily", "Do not know", "Never or almost never",
                                    "Once every few months"),
-                          to = c("1", "1","1","1", NA,"1","0")) 
+                          to = c("1", "1","1","1", NA,"0","1")) 
 
 confide2_bin <- mapvalues(confide2, 
                           from = c("2-4 times a week","About once a month","About once a week",
                                    "Almost daily", "Do not know", "Never or almost never",
                                    "Once every few months","Prefer not to answer"),
-                          to = c("1", "1","1","1", NA,"1","0", NA)) 
+                          to = c("1", "1","1","1", NA,"0","1", NA)) 
 
 confide3_bin <- mapvalues(confide3, 
                           from = c("2-4 times a week","About once a month","About once a week",
                                    "Almost daily", "Never or almost never",
                                    "Once every few months"),
-                          to = c("1", "1","1","1","1","0")) 
+                          to = c("1", "1","1","1","0","1")) 
 
 confide0_bin_num <- as.numeric(confide0_bin)
 confide1_bin_num <- as.numeric(confide1_bin)
@@ -500,27 +500,27 @@ visits0_bin <- mapvalues(visits0,
                                   "Almost daily", "Do not know", "Never or almost never",
                                   "No friends/family outside household",
                                   "Once every few months","Prefer not to answer"),
-                         to = c("1", "1","1","1", NA,"0","0", "0",NA)) 
+                         to = c("1", "1","1","1", NA,"0","0", "1",NA)) 
 
 visits1_bin <- mapvalues(visits1, 
                          from = c("2-4 times a week","About once a month","About once a week",
                                   "Almost daily", "Never or almost never",
                                   "No friends/family outside household",
                                   "Once every few months","Prefer not to answer"),
-                         to = c("1", "1","1","1","0","0", "0",NA)) 
+                         to = c("1", "1","1","1","0","0", "1",NA)) 
 
 visits2_bin <- mapvalues(visits2, 
                          from = c("2-4 times a week","About once a month","About once a week",
                                   "Almost daily", "Do not know", "Never or almost never",
                                   "No friends/family outside household",
                                   "Once every few months","Prefer not to answer"),
-                         to = c("1", "1","1","1", NA,"0","0", "0",NA)) 
+                         to = c("1", "1","1","1", NA,"0","0", "1",NA)) 
 
 visits3_bin <- mapvalues(visits3, 
                          from = c("2-4 times a week","About once a month","About once a week",
                                   "Almost daily", "Never or almost never",
                                   "Once every few months"),
-                         to = c("1", "1","1","1","0", "0")) 
+                         to = c("1", "1","1","1","0", "1")) 
 
 visits0_bin_num <- as.numeric(visits0_bin)
 visits1_bin_num <- as.numeric(visits1_bin)
@@ -1305,6 +1305,8 @@ alcohol_dataframe_num <- data.frame(sixdrinks_score_num, alcoholfq_score_num, am
 alcohol_dataframe_num$sum <- round(alcohol_dataframe_num$sixdrinks_score_num + alcohol_dataframe_num$alcoholfq_score_num + alcohol_dataframe_num$amountdrinks_score_num, digits = 2)
 Alcohol <- alcohol_dataframe_num$sum
 
+# SES (SOCIOECONOMIC STATUS)
+SES <- data_y$townsend_deprivation_index_at_recruitment_f189_0_0
 
 
 #laag is minder alcohol, hoog is meer alcohol
