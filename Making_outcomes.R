@@ -189,7 +189,7 @@ edu_qua_bin_35_num <- as.numeric(edu_qua_bin_35)
 edu_qua_total_3_num <- data.frame(edu_qua_bin_30_num, edu_qua_bin_31_num, edu_qua_bin_32_num, 
                                   edu_qua_bin_33_num, edu_qua_bin_34_num, edu_qua_bin_35_num)
 edu_qua_total_3_num$sum <- rowSums(edu_qua_total_3_num, na.rm = T)
-View(edu_qua_total_3_num)
+
 
 edu_qua_0 <- edu_qua_total_0_num$sum
 edu_qua_1 <- edu_qua_total_1_num$sum
@@ -220,6 +220,7 @@ edu_qua_df_numeric$sum[edu_qua_df_numeric$sum < 1] <- "0"
 edu_qua_df_numeric_sumnum <- as.numeric(edu_qua_df_numeric$sum)
 
 Education_attainment <- edu_qua_df_numeric_sumnum
+
 
 #2 Employment # 1 is gewerkt, 0 = niet gewerkt
 #EMPLOYMENT
@@ -270,12 +271,12 @@ emp_df_6_bin_num <- as.numeric(emp_df_6_bin)
 emp_total_0_num <- data.frame(emp_df_0_bin_num, emp_df_1_bin_num, emp_df_2_bin_num, emp_df_3_bin_num,
                               emp_df_4_bin_num, emp_df_5_bin_num, emp_df_6_bin_num)
 emp_total_0_num$sum <- rowSums(emp_total_0_num, na.rm = T)
-View(emp_total_0_num)
+
 ##hoger dan 1 is werk, 1 of lager is geen werk
 
 #TIMEPOINT 1
 cylinder <- table(data_y$current_employment_status_f6142_1_6)
-View(cylinder)
+
 
 emp1_df_0_bin <- mapvalues(data_y$current_employment_status_f6142_0_0, 
                            from = c("Doing unpaid or voluntary work", "Full or part-time student", 
@@ -314,13 +315,11 @@ emp1_df_6_bin_num <- as.numeric(emp_df_6_bin)
 emp_total_1_num <- data.frame(emp1_df_0_bin_num, emp1_df_1_bin_num, emp1_df_2_bin_num, emp1_df_3_bin_num,
                               emp1_df_4_bin_num, emp1_df_5_bin_num, emp1_df_6_bin_num)
 emp_total_1_num$sum <- rowSums(emp_total_1_num, na.rm = T)
-View(emp_total_1_num)
 
 ##hoger dan 1 is werk, 1 of lager is geen werk
 
 #TIMEPOINT 2
 cylinder <- table(data_y$current_employment_status_f6142_2_6)
-View(cylinder)
 
 emp2_df_0_bin <- mapvalues(data_y$current_employment_status_f6142_2_0, 
                            from = c("Doing unpaid or voluntary work", "Full or part-time student", 
@@ -364,11 +363,11 @@ emp2_df_6_bin_num <- as.numeric(emp2_df_6_bin)
 emp_total_2_num <- data.frame(emp2_df_0_bin_num, emp2_df_1_bin_num, emp2_df_2_bin_num, emp2_df_3_bin_num,
                               emp2_df_4_bin_num, emp2_df_5_bin_num, emp2_df_6_bin_num)
 emp_total_2_num$sum <- rowSums(emp_total_2_num, na.rm = T)
-View(emp_total_2_num)
+
 
 #TIMEPOINT 3
 cylinder <- table(data_y$current_employment_status_f6142_3_3)
-View(cylinder)
+
 
 
 emp3_df_0_bin <- mapvalues(data_y$current_employment_status_f6142_3_0, 
@@ -403,7 +402,7 @@ emp3_df_6_bin_num <- as.numeric(emp3_df_6_bin)
 emp_total_3_num <- data.frame(emp3_df_0_bin_num, emp3_df_1_bin_num, emp3_df_2_bin_num, emp3_df_3_bin_num,
                               emp3_df_4_bin_num, emp3_df_5_bin_num, emp3_df_6_bin_num)
 emp_total_3_num$sum <- rowSums(emp_total_3_num, na.rm = T)
-View(emp_total_3_num)
+
 
 #sum samen doen
 employment_0 <- emp_total_0_num$sum
@@ -544,7 +543,7 @@ leisure03 <- data_y$leisuresocial_activities_f6160_0_3
 leisure04 <- data_y$leisuresocial_activities_f6160_0_4
 
 cylinder <- table(leisure01)
-View(cylinder)
+
 
 leisure_00_bin <- mapvalues(leisure00, 
                             from = c("Adult education class","None of the above", "Other group activity",
@@ -586,7 +585,6 @@ leisure13 <- data_y$leisuresocial_activities_f6160_1_3
 leisure14 <- data_y$leisuresocial_activities_f6160_1_4
 
 cylinder <- table(leisure13)
-View(cylinder)
 
 leisure_10_bin <- mapvalues(leisure10, 
                             from = c("Adult education class","None of the above", "Other group activity",
@@ -629,7 +627,7 @@ leisure23 <- data_y$leisuresocial_activities_f6160_2_3
 leisure24 <- data_y$leisuresocial_activities_f6160_2_4
 
 cylinder <- table(leisure24)
-View(cylinder)
+
 
 leisure_20_bin <- mapvalues(leisure20, 
                             from = c("Adult education class","None of the above", "Other group activity",
@@ -672,7 +670,7 @@ leisure33 <- data_y$leisuresocial_activities_f6160_3_3
 leisure34 <- data_y$leisuresocial_activities_f6160_3_4
 
 cylinder <- table(leisure30)
-View(cylinder)
+
 
 leisure_30_bin <- mapvalues(leisure30, 
                             from = c("None of the above", "Other group activity",
@@ -1013,7 +1011,7 @@ mutipleworry_bin <- mapvalues(data_y$multiple_worries_during_worst_period_of_anx
 mutipleworry_yesno <- mapvalues(mutipleworry_bin, from = c("1","0"), to = c("Yes", "No"))
 
 cylinder <- table(data_y$multiple_worries_during_worst_period_of_anxiety_f20540_0_0)
-View(cylinder)
+
 
 numberissues_bin_num <- as.numeric(numberissues_bin)
 mutipleworry_bin_num <- as.numeric(mutipleworry_bin)
@@ -1043,7 +1041,7 @@ unablestop_bin <- mapvalues(data_y$frequency_of_inability_to_stop_worrying_durin
 unablestop_yesno <- mapvalues(unablestop_bin, from = c("1","0"), to = c("Yes", "No"))
 
 cylinder <- table(data_y$frequency_of_inability_to_stop_worrying_during_worst_period_of_anxiety_f20539_0_0)
-View(cylinder)
+
 
 ##OR
 data_y$frequency_of_difficulty_controlling_worry_during_worst_period_of_anxiety_f20537_0_0
@@ -1185,8 +1183,8 @@ GAD_num <- as.numeric(GAD_yesno)
 
 
 #8 Self-harm behavior
-#selfharm_worthliving <- (data_y$ever_thought_that_life_not_worth_living_f20479_0_0)
-#selfharm_harmed <- (data_y$ever_selfharmed_f20480_0_0)
+selfharm_worthliving <- (data_y$ever_thought_that_life_not_worth_living_f20479_0_0)
+selfharm_harmed <- (data_y$ever_selfharmed_f20480_0_0)
 
 #self-harm
 sh_harmed_bin <- mapvalues(selfharm_harmed, 
@@ -1276,7 +1274,7 @@ alcoholfq_score <- mapvalues(data_y$frequency_of_drinking_alcohol_f20414_0_0,
                                to = c("1", "2", "4", "3", "5", NA))
 
 cylinder <- table(data_y$frequency_of_drinking_alcohol_f20414_0_0)
-View(cylinder)# 6 answers: prefer not to answer, never,monthly or less, 2 to 3 times a week, 2 to 4 times a month, 4 or more times a week
+# 6 answers: prefer not to answer, never,monthly or less, 2 to 3 times a week, 2 to 4 times a month, 4 or more times a week
 
 #typical drinks (score 0-4) 20403, 
 data_y$amount_of_alcohol_drunk_on_a_typical_drinking_day_f20403_0_0
@@ -1285,7 +1283,7 @@ amountdrinks_score <- mapvalues(data_y$amount_of_alcohol_drunk_on_a_typical_drin
                              to = c("1", "5", "2", "3", "4", NA))
 
 cylinder <- table(data_y$amount_of_alcohol_drunk_on_a_typical_drinking_day_f20403_0_0)
-View(cylinder) # 6 answers: 1 or 2, 10 or more, 3 or 4, 5 or 6, 7, 8 or 9, Prefer not to answer
+ # 6 answers: 1 or 2, 10 or more, 3 or 4, 5 or 6, 7, 8 or 9, Prefer not to answer
 
 #six or more drinks (scored 0-4) 20416
 data_y$frequency_of_consuming_six_or_more_units_of_alcohol_f20416_0_0
@@ -1295,7 +1293,7 @@ sixdrinks_score <- mapvalues(data_y$frequency_of_consuming_six_or_more_units_of_
                                 to = c("5", "2", "3", "1", "4", NA))
 
 cylinder <- table(data_y$frequency_of_consuming_six_or_more_units_of_alcohol_f20416_0_0)
-View(cylinder) #6 answers: Daily or almost daily, Less than monthly, Monthly, Never, Prefer not to answer, Weekly
+ #6 answers: Daily or almost daily, Less than monthly, Monthly, Never, Prefer not to answer, Weekly
 
 alcohol_dataframe <- data.frame(sixdrinks_score, alcoholfq_score, amountdrinks_score)
 sixdrinks_score_num <- as.numeric(alcohol_dataframe$sixdrinks_score)
@@ -1323,7 +1321,7 @@ talked_pe <- data_y$ever_talked_to_a_health_professional_about_unusual_or_psycho
 frequency_pe <- data_y$frequency_of_unusual_or_psychotic_experiences_in_past_year_f20467_0_0
 
 #voices
-View(data_y$ever_heard_an_unreal_voice_f20463_0_0)
+
 voices_bin <- mapvalues(data_y$ever_heard_an_unreal_voice_f20463_0_0, 
                         from = c("Do not know","No", "Prefer not to answer","Yes"),
                         to = c(NA, "0", NA, "1"))
@@ -1382,3 +1380,20 @@ medication_bin <- mapvalues(data_y$ever_prescribed_a_medication_for_unusual_or_p
                             to = c(NA, "0", NA, "1"))
 medication_bin_num <- as.numeric(medication_bin)
 
+
+Education_attainment
+Employment
+Confide
+Visits_familyfriends
+Leisure
+accomodation_type 
+acco_environment
+Cannabis_num
+depression_num
+GAD_num
+sh_harmed_num 
+sh_worthliving_num
+Wellbeing
+Smoking
+Alcohol
+SES
