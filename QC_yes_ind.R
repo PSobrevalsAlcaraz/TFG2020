@@ -1,10 +1,13 @@
-setwd("/hpc/hers_en/shared/Bombari_Paula/ukbb/data")
+setwd("/hpc/hers_en/psobrevals/")
 
 library(robustbase)
 
-yes.ind <- read.csv("./Real_data/yes_ind.csv", header = T)
-no.ind <- read.csv("/hpc/hers_en/psobrevals/bombari/no_ind.csv", header = T)
-data.i <- read.csv("./Generated_data/data_y.csv", header = T)
+#yes.ind <- read.csv("./Real_data/yes_ind.csv", header = T)
+yes.ind <- read.table("/hpc/hers_en/psobrevals/bombari/yes_ind.txt", sep = " ", header = T)
+yes.ind <- yes.ind[,1]
+yes.ind <- as.matrix(yes.ind)
+#no.ind <- read.csv("/hpc/hers_en/psobrevals/bombari/no_ind.csv", header = T)
+data.i <- read.csv("/hpc/hers_en/psobrevals/bombari/data_y.csv", header = T)
 data.y <- as.matrix(data.i)
 col.names <- colnames(data.y)
 
@@ -14,15 +17,15 @@ to_delete <- c()
 
 #--- eMethods6 to exclude individuals of Association of Genetic Liability to Psychotic Experiences With Neuropsychotic Disorders and Traits:
 
-  # eMethods 6. Individuals Excluded
-  # 
-  # Quality control step 1 consisted of excluding study individuals that (i) did not have a selfreported
-  # White British or Irish ethnicity, (ii) did not have genetic data available, or (iii)
-  # did not pass initial genetic quality control parameters (missingness). Step 2 consisted of
-  # excluding individuals that did not have European genetic ancestry as defined by principal
-  # components (see ‘defining European genetic ancestry’ above). Step 3 consisted of
-  # excluding related individuals and finally, step 4 excluded individuals with a
-  # schizophrenia, bipolar disorder or psychotic disorder diagnosis.
+# eMethods 6. Individuals Excluded
+# 
+# Quality control step 1 consisted of excluding study individuals that (i) did not have a selfreported
+# White British or Irish ethnicity, (ii) did not have genetic data available, or (iii)
+# did not pass initial genetic quality control parameters (missingness). Step 2 consisted of
+# excluding individuals that did not have European genetic ancestry as defined by principal
+# components (see ‘defining European genetic ancestry’ above). Step 3 consisted of
+# excluding related individuals and finally, step 4 excluded individuals with a
+# schizophrenia, bipolar disorder or psychotic disorder diagnosis.
 
 # 1 Ethnicity
 
@@ -30,13 +33,9 @@ ethnicity <- grep("21000",col.names)
 ethnic <- as.matrix(yes.ind)
 ethnic <- cbind(ethnic, data.y[,ethnicity])
 
+
 # Take those that are British, Irish or White. 
 by_ethnicity <- ethnic[ethnic[,2]!="British" &  ethnic[,2]!="Irish" &  ethnic[,2]!="White",1]
-
-
-b_i_w <- ethnic[ethnic[,2]=="British" |  ethnic[,2]=="Irish" |  ethnic[,2]=="White",]
-arr_dif <- which((b_i_w[,-1] != "British") & (b_i_w[,-1] != "Irish") & (b_i_w[,-1] != "White"), arr.ind=T)
-by_ethnicity <- c(by_ethnicity, b_i_w[arr_dif,1])
 
 
 by_ethnicity <- unique(by_ethnicity) #674
@@ -63,6 +62,7 @@ for (i in chr) {
   ch <- c(ch, paste("0",i,sep=""))
 }
 chr <- c(ch, seq(10,24,1))
+
 
 by_gen <- c()
 for (i in chr) {
@@ -124,7 +124,7 @@ to_delete <- c(to_delete, by_pca_del)
 to_delete <- unique(to_delete)
 
 # 3 RELATED
-related <- read.table("../ukb55392_rel_s488265.dat", header = T)
+related <- read.table("./bombari/ukb55392_rel_s488265.dat", header = T)
 r <- as.matrix(yes.ind)
 colnames(r)[1] <- "ID1"
 rel_m1 <- merge(r, related, by = "ID1")
@@ -141,8 +141,12 @@ to_delete <- unique(to_delete) # 1163
 #yes.ind <- yes.ind[!(yes.ind %in% to_delete)]
 # 11 
 
+# NEXT STEP ONLY TO DELETE THOSE WITH SEVERAL MENTAL ILLNESS:
+
 # 4 BPD, SCZ, PSY individuals
+mi_ind <- c()
 # From id 20002:
+
 
 id20002 <- grep("20002",col.names)
 individuals_20002 <- matrix(nrow = nrow(data.y),ncol = 0)
@@ -154,16 +158,16 @@ scz <- which(individuals_20002==" 1289", arr.ind = T)[,1]
 bpd <- which(individuals_20002==" 1291", arr.ind = T)[,1]
 psy <- which(individuals_20002==" 1243", arr.ind = T)[,1]
 for (id in scz){
-  to_delete <- c(to_delete,individuals_20002[id,1])
+  mi_ind <- c(mi_ind,individuals_20002[id,1])
 }
 for (id in bpd){
-  to_delete <- c(to_delete,individuals_20002[id,1])
+  mi_ind <- c(mi_ind,individuals_20002[id,1])
 }
 for (id in psy){
-  to_delete <- c(to_delete,individuals_20002[id,1])
+  mi_ind <- c(mi_ind,individuals_20002[id,1])
 }
-to_delete <- unique(to_delete)
-length(to_delete) #270
+mi_ind <- unique(mi_ind)
+length(mi_ind) #270
 
 # From id 20544:
 
@@ -178,15 +182,15 @@ psy2 <- which(individuals_20544=="Any other type of psychosis or psychotic illne
 bpd2 <- which(individuals_20544=="Mania, hypomania, bipolar or manic-depression", arr.ind = T)[,1]
 
 for (id in scz2){
-  to_delete <- c(to_delete,individuals_20544[id,1])
+  mi_ind <- c(mi_ind,individuals_20544[id,1])
 }
 for (id in bpd2){
-  to_delete <- c(to_delete,individuals_20544[id,1])
+  mi_ind <- c(mi_ind,individuals_20544[id,1])
 }
 for (id in psy2){
-  to_delete <- c(to_delete,individuals_20544[id,1])
+  mi_ind <- c(mi_ind,individuals_20544[id,1])
 }
-to_delete <- unique(to_delete)
+mi_ind <- unique(mi_ind)
 
 # From id 41202:
 
@@ -210,7 +214,6 @@ individuals_40001 <- cbind(data.y[,2], individuals_40001)
 for (i in id40001){
   individuals_40001 <- cbind(individuals_40001, data.y[,i])
 }
-
 scz_bpd_psy <- c("F200", "F200", "F201", "F202" ,"F203" ,"F204", "F205" ,"F206", "F208" ,"F209", "F21" , "F22",  "F220", "F228" ,"F229", "F23" , "F230",
                  "F231", "F232", "F233" ,"F238", "F239",  "F25" , "F250" ,"F251", "F252" ,"F258" ,"F259", "F28" , "F29","F300", "F301", "F302", "F308", "F309", "F310", 
                  "F311", "F312" ,"F313", "F314" ,"F315", "F316", "F317","F318", "F319")
@@ -218,65 +221,65 @@ scz_bpd_psy <- c("F200", "F200", "F201", "F202" ,"F203" ,"F204", "F205" ,"F206",
 
 for ( i in scz_bpd_psy){
   id <- which(individuals_41202==i, arr.ind = T)[,1]
-  to_delete <- c(to_delete,individuals_41202[id,1])
+  mi_ind <- c(mi_ind,individuals_41202[id,1])
 }
 
 # From id 41204:
 
 for ( i in scz_bpd_psy){
   id <- which(individuals_41204==i, arr.ind = T)[,1]
-  to_delete <- c(to_delete,individuals_41204[id,1])
+  mi_ind <- c(mi_ind,individuals_41204[id,1])
 }
 
 # From id 40001:
 
 for ( i in scz_bpd_psy){
   id <- which(individuals_40001==i, arr.ind = T)[,1]
-  to_delete <- c(to_delete,individuals_40001[id,1])
+  mi_ind <- c(mi_ind,individuals_40001[id,1])
 }
 
+mi_ind <- unique(mi_ind)
+to_delete <- unique(to_delete)
+
+
+# NEXT STEP TO DELETE INDIVIDUALS WITH ANY MENTAL ILLNESS:
+
+id20544 <- grep("20544",col.names)
+individuals_20544 <- matrix(nrow = nrow(data.y),ncol = 0)
+individuals_20544 <- cbind(data.y[,2], individuals_20544)
+for (i in id20544){
+  individuals_20544 <- cbind(individuals_20544, data.y[,i])
+}
+
+individuals_20544 <- individuals_20544[!(rowSums(is.na(individuals_20544)) == ncol(individuals_20544)-1), ]
+all_mi <- individuals_20544[,1]
+
+mi_ind <- unique(mi_ind)
 to_delete <- unique(to_delete)
 
 
 #--- Get only those healthy yes individuals
-y.ind <- yes.ind[!(yes.ind %in% to_delete)]
+y.ind1 <- yes.ind[!(yes.ind %in% to_delete)]
+y.ind <- y.ind1[(y.ind1 %in% mi_ind)] # keep only individuals with Mental illnesses
 y.ind <- cbind(y.ind,y.ind)
 colnames(y.ind) <- c("FID","IID")
-write.table(y.ind, file = "../../../../psobrevals/bombari/yes_ind_QC.txt", row.names = F)
+write.table(y.ind, file = "/hpc/hers_en/psobrevals/bombari/yesPE_yesMI_ind_QC.txt", row.names = F)
 
-#------ DISTRESSING CLEANED:
+#----- ONLY THE HALLUCINATIONS
 
-yes.ind <- read.csv( "./Real_data/yes_ind.csv", header = T)[,-1]
+hall <- read.table("/hpc/hers_en/psobrevals/bombari/hallucinations_yes_ind.txt", header = T)
 
-distressing <- grep("20462",col.names)
-yes_distressing <- as.matrix(yes.ind)
-yes_distressing <- cbind(yes_distressing, data.y[,distressing])
-yes_distressing <- cbind(yes_distressing, data.y[,distressing])
-colnames(yes_distressing) <- c("IID", "PHE_distressing", "Binary")
-QC_yes_distressing_01 <- yes_distressing[,3]
+#----- FILES OUTCOME
+#yesPE_ind_all.txt : y.ind1
+#yesPE_ind_all_hall.txt : merge(hall,y.ind1, by = c("FID","IID"))
+#yesPE_nosevereMI_ind.txt : y.ind <- y.ind1[!(y.ind1 %in% mi_ind)]
+#yesPE_nosevereMI_ind_hall.txt : merge(hall,y.ind, by = c("FID","IID"))
+#yesPE_noMI_ind.txt : y.ind2 <- y.ind1[!(y.ind1 %in% all_mi)]
+#yesPE_noMI_ind_hall.txt : merge(hall,y.ind2, by = c("FID","IID"))
 
-answers <- c("Very distressing", "Quite distressing", "A bit distressing", "Not distressing, a neutral experience", 
-             "Not distressing at all, it was a positive experience", "Do not know" , "Prefer not to answer")
-
-for (i in answers) {
-  how <- which(yes_distressing[,2]== i, arr.ind = T )
-  if ( i == "Very distressing" || i == "Quite distressing" || i == "A bit distressing"){
-    yes_distressing[how,3] <- "2"
-  }
-  else if ( i == "Do not know" || i == "Prefer not to answer" ){
-    yes_distressing[how,3] <- "-9"
-  }
-  else {
-    yes_distressing[how,3] <- "1"
-  }
-}
-
-y_d <- read.table("/hpc/hers_en/psobrevals/bombari/yes_ind_QC.txt", header=T)
-y_d <- cbind(y_d, y_d, yes_distressing[,3])
-colnames(y_d) <- c("FID","IID","PHE")
-write.table(y_d, file = "/hpc/hers_en/psobrevals/bombari/yes_distressing_01.txt",row.names = F)
-
-yes.distr.qc <- merge(y.ind, y_d, by= c("FID","IID") )
-write.table(yes.distr.qc,file = "/hpc/hers_en/psobrevals/bombari/yes_distressing_qc.txt",row.names = F)
+#yesPE_severeMI_ind.txt : y.ind <- y.ind1[(y.ind1 %in% mi_ind)]
+#yesPE_severeMI_ind_hall.txt : merge(hall,y.ind, by = c("FID","IID"))
+#yesPE_onlyMI_ind.txt : y.ind2 <- y.ind1[(y.ind1 %in% all_mi)]
+#yesPE_onlyMI_ind_hall.txt : merge(hall,y.ind2, by = c("FID","IID"))
 
 
