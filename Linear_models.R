@@ -171,3 +171,5 @@ for (outcome in Outcomes) {
     }
   }
 }
+
+write.table(lm_results, "/hpc/hers_en/psobrevals/bombari/Regression_model.txt", quote=FALSE, row.names=FALSE, col.names=TRUE)
