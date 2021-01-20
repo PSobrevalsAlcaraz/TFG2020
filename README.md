@@ -13,6 +13,7 @@ Here you can find all the scripts used for my final project and a short descript
 * genetic_corr_ldsc.sh		---> Obtain genetic correlation between diffeent PE
 * GRM.sh				---> Obtain GRM files with gcta_1.93
 * GWAS_type_PE.sh			---> Generate GWAS for diffferent PE demographics
+* Linear_models.R		---> Neww file for regression analysis linear and logistic regression
 * linear_regression.R		---> Regression analysis linear and logistic regression
 * merge_chromosomes.sh		---> To merge file chromosomes
 * merglist                        ---> List used to merge the chromosomes
