@@ -8,8 +8,8 @@ yes.ind <- yes.ind[,1]
 yes.ind <- as.matrix(yes.ind)
 #no.ind <- read.csv("/hpc/hers_en/psobrevals/bombari/no_ind.csv", header = T)
 data.i <- read.csv("/hpc/hers_en/psobrevals/bombari/data_y.csv", header = T)
-data.y <- as.matrix(data.i)
-col.names <- colnames(data.y)
+#data.y <- as.matrix(data.i)
+col.names <- colnames(data.i)
 
 #----- QC of yes individuals
 to_delete <- c()
@@ -254,6 +254,7 @@ for (i in id20544){
 individuals_20544 <- individuals_20544[!(rowSums(is.na(individuals_20544)) == ncol(individuals_20544)-1), ]
 all_mi <- individuals_20544[,1]
 
+all_mi <- unique(all_mi)
 mi_ind <- unique(mi_ind)
 to_delete <- unique(to_delete)
 
@@ -263,7 +264,8 @@ y.ind1 <- yes.ind[!(yes.ind %in% to_delete)]
 y.ind <- y.ind1[(y.ind1 %in% mi_ind)] # keep only individuals with Mental illnesses
 y.ind <- cbind(y.ind,y.ind)
 colnames(y.ind) <- c("FID","IID")
-write.table(y.ind, file = "/hpc/hers_en/psobrevals/bombari/yesPE_yesMI_ind_QC.txt", row.names = F)
+nrow(y.ind)
+write.table(y.ind, file = "/hpc/hers_en/psobrevals/bombari/individual_groups/yesPE_yesMI_ind_QC.txt", quote = F, row.names = F)
 
 #----- ONLY THE HALLUCINATIONS
 
