@@ -26,3 +26,6 @@ Here you can find all the scripts used for my final project and a short descript
 * Quality_control_chr_plink.sh	---> Old version to generate PRS and clean genetic data
 * Table_results.R			---> Generate table with results of PRSice
 * ukbiobank_phenotype_data.R	---> Obtain information from Uk Biobank data of questionaries
+* Whichpvalpt.R	---> File to extract Most important pvalues
+
+
