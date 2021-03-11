@@ -20,6 +20,12 @@ for (prs in files_prs) {
   rownames(lm_results) <- Outcomes
   lm_results <- as.data.frame(lm_results)
   print("PRS llegit")
+  
+  full_results <- matrix(nrow = 16, ncol = 4)
+  colnames(full_results) <- c("ynPE","Hall","Sev","MI")
+  rownames(full_results) <- Outcomes
+  full_results <- as.data.frame(full_results)
+  
 for (outcome in Outcomes) {
   
   files <- list.files(path="/hpc/hers_en/psobrevals/Outcomes", pattern=paste("*",outcome,"*",sep=""), full.names=TRUE, recursive=FALSE)
@@ -51,6 +57,7 @@ for (outcome in Outcomes) {
       
       result <- r2-null.r2
       
+      full_results[outcome,covariate_] <- r2
       lm_results[outcome,covariate_] <- result
       print("r2")
       }
@@ -72,10 +79,12 @@ for (outcome in Outcomes) {
       nk2 <- NagelkerkeR2(model.glm)$R2
       
       result <- nk2-null.nk2
+      full_results[outcome,covariate_] <- nk2
       lm_results[outcome,covariate_] <- result
       print("r2")
     }
     }
     }
-  write.table(lm_results, paste("/hpc/hers_en/psobrevals/Regression_results/",gw,sep = "_"), quote=FALSE, row.names = T, col.names=TRUE)
+  write.table(lm_results, paste("/hpc/hers_en/psobrevals/Regression_results/Single_group_explainig",gw,sep = "_"), quote=FALSE, row.names = T, col.names=TRUE)
+  write.table(lm_results, paste("/hpc/hers_en/psobrevals/Regression_results/Full_model_explains",gw,sep = "_"), quote=FALSE, row.names = T, col.names=TRUE)
 }
